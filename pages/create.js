@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, signInWithRedirect } from 'firebase/auth';
+import { createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import { auth } from '../firebase';
 import { useAuth } from '../context/AuthContext';
 import { useLanguage } from '../context/LanguageContext';
@@ -55,13 +55,8 @@ const CreateAccount = () => {
   const handleGoogleSignUp = async () => {
     const provider = new GoogleAuthProvider();
     try {
-      const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-      if (isMobile) {
-        await signInWithRedirect(auth, provider);
-      } else {
-        await signInWithPopup(auth, provider);
-        router.push('/dashboard');
-      }
+      await signInWithPopup(auth, provider);
+      router.push('/dashboard');
     } catch (error) {
       console.error('Error during Google sign-up:', error);
       setError(t('create.errorGoogle'));

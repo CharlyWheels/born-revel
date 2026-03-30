@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from 'react';
-import { onAuthStateChanged, getRedirectResult } from 'firebase/auth';
+import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from '../firebase';
 
 const AuthContext = createContext();
@@ -9,11 +9,6 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Handle redirect result from signInWithRedirect (mobile)
-    getRedirectResult(auth).catch((error) => {
-      console.error('Error getting redirect result:', error);
-    });
-
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       console.log('Auth state changed:', user);
       setUser(user);
