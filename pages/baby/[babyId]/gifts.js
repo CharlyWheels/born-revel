@@ -42,6 +42,14 @@ const GiftRegistry = () => {
     priceRangeMax: '',
     providerIds: [],
   });
+  const [editArticleData, setEditArticleData] = useState({
+    name: '',
+    description: '',
+    brand: '',
+    category: '',
+    imageUrls: [],
+    newImageUrl: '',
+  });
 
   const getArticleProviders = (article) => {
     if (!article) return [];
@@ -266,10 +274,26 @@ const GiftRegistry = () => {
     e.preventDefault();
     try {
       const isEditing = editingGiftId !== null;
+
+      // When editing, also update the article fields
+      if (isEditing && selectedArticle) {
+        await fetch(`/api/articles/${selectedArticle.id}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name: editArticleData.name || undefined,
+            description: editArticleData.description || undefined,
+            brand: editArticleData.brand || undefined,
+            category: editArticleData.category || undefined,
+            imageUrls: editArticleData.imageUrls.length > 0 ? editArticleData.imageUrls : undefined,
+          }),
+        });
+      }
+
       const url = isEditing
         ? `/api/babies/${babyId}/gifts/${editingGiftId}`
         : `/api/babies/${babyId}/gifts`;
-      
+
       const response = await fetch(url, {
         method: isEditing ? 'PUT' : 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -287,15 +311,12 @@ const GiftRegistry = () => {
       });
 
       if (response.ok) {
-        const updatedGift = await response.json();
         if (isEditing) {
-          setGiftItems(
-            giftItems.map((item) =>
-              item.id === editingGiftId ? updatedGift : item
-            )
-          );
+          // Re-fetch to get updated article data
+          await fetchGiftItems();
         } else {
-          setGiftItems([...giftItems, updatedGift]);
+          const newGift = await response.json();
+          setGiftItems([...giftItems, newGift]);
         }
         setShowAddForm(false);
         setSelectedArticle(null);
@@ -317,13 +338,22 @@ const GiftRegistry = () => {
   };
 
   const handleEdit = (giftItem) => {
-    setSelectedArticle(giftItem.article);
+    const article = giftItem.article;
+    setSelectedArticle(article);
     setEditingGiftId(giftItem.id);
     setGiftFormData({
       acceptSimilar: giftItem.acceptSimilar || false,
       priceRangeMin: giftItem.priceRangeMin?.toString() || '',
       priceRangeMax: giftItem.priceRangeMax?.toString() || '',
       providerIds: giftItem.providerIds || [],
+    });
+    setEditArticleData({
+      name: article?.name || '',
+      description: article?.description || '',
+      brand: article?.brand || '',
+      category: article?.category || '',
+      imageUrls: article?.imageUrls || [],
+      newImageUrl: '',
     });
     setShowAddForm(true);
   };
@@ -524,15 +554,37 @@ const GiftRegistry = () => {
                 </div>
                 <div>
                   <label className="block text-white font-medium mb-2">
-                    {t('gifts.imageUrls')}
+                    {t('gifts.images')}
                   </label>
+                  {parseImageUrls(createFormData.imageUrls).length > 0 ? (
+                    <div className="flex flex-wrap gap-2 mb-3">
+                      {parseImageUrls(createFormData.imageUrls).map((img, i) => (
+                        <div key={i} className="relative group">
+                          <img src={img} alt={`${i + 1}`} className="h-20 w-20 rounded-lg object-cover border border-white/20" onError={(e) => { e.target.style.opacity = '0.3'; }} />
+                          <button
+                            type="button"
+                            onClick={() => {
+                              const urls = parseImageUrls(createFormData.imageUrls).filter((_, idx) => idx !== i);
+                              setCreateFormData({ ...createFormData, imageUrls: urls.join(', ') });
+                            }}
+                            className="absolute -top-2 -right-2 bg-red-500 hover:bg-red-600 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs"
+                          >
+                            x
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <p className="text-white/50 text-sm mb-3">{t('gifts.noImages')}</p>
+                  )}
                   <input
                     type="text"
                     value={createFormData.imageUrls}
                     onChange={(e) =>
                       setCreateFormData({ ...createFormData, imageUrls: e.target.value })
                     }
-                    className="w-full px-4 py-2 rounded-lg bg-white/10 border border-white/20 text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-white/30"
+                    placeholder={t('gifts.imageUrls')}
+                    className="w-full px-4 py-2 rounded-lg bg-white/10 border border-white/20 text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-white/30 text-sm"
                   />
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -676,135 +728,242 @@ const GiftRegistry = () => {
           </div>
         )}
 
-        {/* Configure Gift Form */}
+        {/* Configure / Edit Gift Modal */}
         {showAddForm && selectedArticle && (
-          <div className="relative z-10 bg-white/10 backdrop-blur-md rounded-xl border border-white/20 p-6 mb-8">
-            <h2 className="text-2xl font-semibold text-white mb-4">
-              {editingGiftId ? t('gifts.editGift') : t('gifts.configureGift')}: {selectedArticle.name}
-            </h2>
-            <form onSubmit={handleAddGift}>
-              <div className="space-y-4">
-                <div className="flex items-center gap-2">
-                  <input
-                    type="checkbox"
-                    id="acceptSimilar"
-                    checked={giftFormData.acceptSimilar}
-                    onChange={(e) =>
-                      setGiftFormData({
-                        ...giftFormData,
-                        acceptSimilar: e.target.checked,
-                      })
-                    }
-                    className="w-5 h-5 rounded"
-                  />
-                  <label htmlFor="acceptSimilar" className="text-white">
-                    {t('gifts.acceptSimilar')}
-                  </label>
-                </div>
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-white font-medium mb-2">
-                      {t('gifts.minPrice')} (€)
-                    </label>
-                    <input
-                      type="number"
-                      step="0.01"
-                      value={giftFormData.priceRangeMin}
-                      onChange={(e) =>
-                        setGiftFormData({
-                          ...giftFormData,
-                          priceRangeMin: e.target.value,
-                        })
-                      }
-                      className="w-full px-4 py-2 rounded-lg bg-white/10 border border-white/20 text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-white/30"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-white font-medium mb-2">
-                      {t('gifts.maxPrice')} (€)
-                    </label>
-                    <input
-                      type="number"
-                      step="0.01"
-                      value={giftFormData.priceRangeMax}
-                      onChange={(e) =>
-                        setGiftFormData({
-                          ...giftFormData,
-                          priceRangeMax: e.target.value,
-                        })
-                      }
-                      className="w-full px-4 py-2 rounded-lg bg-white/10 border border-white/20 text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-white/30"
-                    />
-                  </div>
-                </div>
-                <div>
-                  <label className="block text-white font-medium mb-2">
-                    {t('gifts.providers')}
-                  </label>
-                  <div className="space-y-2 max-h-48 overflow-y-auto">
-                    {getArticleProviders(selectedArticle).length === 0 ? (
-                      <div className="text-white/60 text-sm">
-                        {t('gifts.noProviders')}
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm" onClick={() => { setShowAddForm(false); setSelectedArticle(null); setEditingGiftId(null); }}>
+            <div className="bg-gradient-to-br from-pink-600/90 via-rose-500/90 to-orange-500/90 backdrop-blur-md rounded-xl border border-white/20 p-6 w-full max-w-lg max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
+              <h2 className="text-2xl font-semibold text-white mb-4">
+                {editingGiftId ? t('gifts.editGift') : t('gifts.configureGift')}: {selectedArticle.name}
+              </h2>
+              <form onSubmit={handleAddGift}>
+                <div className="space-y-4">
+                  {/* Product Details Section (when editing) */}
+                  {editingGiftId && (
+                    <>
+                      <h3 className="text-lg font-medium text-white/90 border-b border-white/20 pb-2">
+                        {t('gifts.productDetails')}
+                      </h3>
+                      <div>
+                        <label className="block text-white font-medium mb-2">
+                          {t('gifts.productName')}
+                        </label>
+                        <input
+                          type="text"
+                          value={editArticleData.name}
+                          onChange={(e) => setEditArticleData({ ...editArticleData, name: e.target.value })}
+                          className="w-full px-4 py-2 rounded-lg bg-white/10 border border-white/20 text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-white/30"
+                        />
                       </div>
-                    ) : (
-                      getArticleProviders(selectedArticle).map((provider) => (
-                        <div key={provider.id} className="flex items-center gap-2">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                          <label className="block text-white font-medium mb-2">
+                            {t('gifts.brand')}
+                          </label>
                           <input
-                            type="checkbox"
-                            id={`provider-${provider.id}`}
-                            checked={giftFormData.providerIds.includes(provider.id)}
-                            onChange={(e) => {
-                              if (e.target.checked) {
-                                setGiftFormData({
-                                  ...giftFormData,
-                                  providerIds: [
-                                    ...giftFormData.providerIds,
-                                    provider.id,
-                                  ],
-                                });
-                              } else {
-                                setGiftFormData({
-                                  ...giftFormData,
-                                  providerIds: giftFormData.providerIds.filter(
-                                    (id) => id !== provider.id
-                                  ),
-                                });
+                            type="text"
+                            value={editArticleData.brand}
+                            onChange={(e) => setEditArticleData({ ...editArticleData, brand: e.target.value })}
+                            className="w-full px-4 py-2 rounded-lg bg-white/10 border border-white/20 text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-white/30"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-white font-medium mb-2">
+                            {t('gifts.category')}
+                          </label>
+                          <input
+                            type="text"
+                            value={editArticleData.category}
+                            onChange={(e) => setEditArticleData({ ...editArticleData, category: e.target.value })}
+                            className="w-full px-4 py-2 rounded-lg bg-white/10 border border-white/20 text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-white/30"
+                          />
+                        </div>
+                      </div>
+                      <div>
+                        <label className="block text-white font-medium mb-2">
+                          {t('gifts.description')}
+                        </label>
+                        <textarea
+                          value={editArticleData.description}
+                          onChange={(e) => setEditArticleData({ ...editArticleData, description: e.target.value })}
+                          rows={3}
+                          className="w-full px-4 py-2 rounded-lg bg-white/10 border border-white/20 text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-white/30"
+                        />
+                      </div>
+                      {/* Image management */}
+                      <div>
+                        <label className="block text-white font-medium mb-2">
+                          {t('gifts.images')}
+                        </label>
+                        {editArticleData.imageUrls.length > 0 ? (
+                          <div className="flex flex-wrap gap-2 mb-3">
+                            {editArticleData.imageUrls.map((img, i) => (
+                              <div key={i} className="relative group">
+                                <img src={img} alt={`${i + 1}`} className="h-20 w-20 rounded-lg object-cover border border-white/20" onError={(e) => { e.target.style.opacity = '0.3'; }} />
+                                <button
+                                  type="button"
+                                  onClick={() => setEditArticleData({ ...editArticleData, imageUrls: editArticleData.imageUrls.filter((_, idx) => idx !== i) })}
+                                  className="absolute -top-2 -right-2 bg-red-500 hover:bg-red-600 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs"
+                                >
+                                  x
+                                </button>
+                              </div>
+                            ))}
+                          </div>
+                        ) : (
+                          <p className="text-white/50 text-sm mb-3">{t('gifts.noImages')}</p>
+                        )}
+                        <div className="flex gap-2">
+                          <input
+                            type="text"
+                            value={editArticleData.newImageUrl}
+                            onChange={(e) => setEditArticleData({ ...editArticleData, newImageUrl: e.target.value })}
+                            placeholder={t('gifts.addImageUrl')}
+                            className="flex-1 px-4 py-2 rounded-lg bg-white/10 border border-white/20 text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-white/30 text-sm"
+                          />
+                          <button
+                            type="button"
+                            onClick={() => {
+                              if (editArticleData.newImageUrl.trim()) {
+                                setEditArticleData({ ...editArticleData, imageUrls: [...editArticleData.imageUrls, editArticleData.newImageUrl.trim()], newImageUrl: '' });
                               }
                             }}
-                            className="w-5 h-5 rounded"
-                          />
-                          <label
-                            htmlFor={`provider-${provider.id}`}
-                            className="text-white"
+                            className="bg-white/20 hover:bg-white/30 text-white font-medium py-2 px-4 rounded-lg transition-all text-sm"
                           >
-                            {provider.name}
-                          </label>
+                            {t('gifts.add')}
+                          </button>
                         </div>
-                      ))
-                    )}
+                      </div>
+                    </>
+                  )}
+
+                  {/* Gift Settings Section */}
+                  {editingGiftId && (
+                    <h3 className="text-lg font-medium text-white/90 border-b border-white/20 pb-2 pt-2">
+                      {t('gifts.giftSettings')}
+                    </h3>
+                  )}
+                  <div className="flex items-center gap-2">
+                    <input
+                      type="checkbox"
+                      id="acceptSimilar"
+                      checked={giftFormData.acceptSimilar}
+                      onChange={(e) =>
+                        setGiftFormData({
+                          ...giftFormData,
+                          acceptSimilar: e.target.checked,
+                        })
+                      }
+                      className="w-5 h-5 rounded"
+                    />
+                    <label htmlFor="acceptSimilar" className="text-white">
+                      {t('gifts.acceptSimilar')}
+                    </label>
+                  </div>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-white font-medium mb-2">
+                        {t('gifts.minPrice')} (€)
+                      </label>
+                      <input
+                        type="number"
+                        step="0.01"
+                        value={giftFormData.priceRangeMin}
+                        onChange={(e) =>
+                          setGiftFormData({
+                            ...giftFormData,
+                            priceRangeMin: e.target.value,
+                          })
+                        }
+                        className="w-full px-4 py-2 rounded-lg bg-white/10 border border-white/20 text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-white/30"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-white font-medium mb-2">
+                        {t('gifts.maxPrice')} (€)
+                      </label>
+                      <input
+                        type="number"
+                        step="0.01"
+                        value={giftFormData.priceRangeMax}
+                        onChange={(e) =>
+                          setGiftFormData({
+                            ...giftFormData,
+                            priceRangeMax: e.target.value,
+                          })
+                        }
+                        className="w-full px-4 py-2 rounded-lg bg-white/10 border border-white/20 text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-white/30"
+                      />
+                    </div>
+                  </div>
+                  <div>
+                    <label className="block text-white font-medium mb-2">
+                      {t('gifts.providers')}
+                    </label>
+                    <div className="space-y-2 max-h-48 overflow-y-auto">
+                      {getArticleProviders(selectedArticle).length === 0 ? (
+                        <div className="text-white/60 text-sm">
+                          {t('gifts.noProviders')}
+                        </div>
+                      ) : (
+                        getArticleProviders(selectedArticle).map((provider) => (
+                          <div key={provider.id} className="flex items-center gap-2">
+                            <input
+                              type="checkbox"
+                              id={`provider-${provider.id}`}
+                              checked={giftFormData.providerIds.includes(provider.id)}
+                              onChange={(e) => {
+                                if (e.target.checked) {
+                                  setGiftFormData({
+                                    ...giftFormData,
+                                    providerIds: [
+                                      ...giftFormData.providerIds,
+                                      provider.id,
+                                    ],
+                                  });
+                                } else {
+                                  setGiftFormData({
+                                    ...giftFormData,
+                                    providerIds: giftFormData.providerIds.filter(
+                                      (id) => id !== provider.id
+                                    ),
+                                  });
+                                }
+                              }}
+                              className="w-5 h-5 rounded"
+                            />
+                            <label
+                              htmlFor={`provider-${provider.id}`}
+                              className="text-white"
+                            >
+                              {provider.name}
+                            </label>
+                          </div>
+                        ))
+                      )}
+                    </div>
+                  </div>
+                  <div className="flex gap-3 pt-2">
+                    <button
+                      type="submit"
+                      className="bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white font-semibold py-2 px-6 rounded-lg transition-all"
+                    >
+                      {editingGiftId ? t('gifts.updateGift') : t('gifts.addToRegistry')}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setShowAddForm(false);
+                        setSelectedArticle(null);
+                        setEditingGiftId(null);
+                      }}
+                      className="bg-white/20 hover:bg-white/30 text-white font-semibold py-2 px-6 rounded-lg transition-all"
+                    >
+                      {t('common.cancel')}
+                    </button>
                   </div>
                 </div>
-                <div className="flex gap-3">
-                  <button
-                    type="submit"
-                    className="bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white font-semibold py-2 px-6 rounded-lg transition-all"
-                  >
-                    {editingGiftId ? t('gifts.updateGift') : t('gifts.addToRegistry')}
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setShowAddForm(false);
-                      setSelectedArticle(null);
-                      setEditingGiftId(null);
-                    }}
-                    className="bg-white/20 hover:bg-white/30 text-white font-semibold py-2 px-6 rounded-lg transition-all"
-                  >
-                    {t('common.cancel')}
-                  </button>
-                </div>
-              </div>
-            </form>
+              </form>
+            </div>
           </div>
         )}
 
