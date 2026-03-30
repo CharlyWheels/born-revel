@@ -1,0 +1,380 @@
+[
+  {
+    "week": 1,
+    "size": "poppy seed",
+    "weight": "< 1g",
+    "length": "0.1 cm",
+    "development": "Fertilization occurs and the zygote begins to divide rapidly.",
+    "tip": "Start taking prenatal vitamins with folic acid to support early neural tube development.",
+    "trimester": 1
+  },
+  {
+    "week": 2,
+    "size": "poppy seed",
+    "weight": "< 1g",
+    "length": "0.1-0.2 cm",
+    "development": "The fertilized egg implants into the uterine wall and begins forming the placenta.",
+    "tip": "Continue taking prenatal vitamins and avoid alcohol, smoking, and certain medications.",
+    "trimester": 1
+  },
+  {
+    "week": 3,
+    "size": "sesame seed",
+    "weight": "< 1g",
+    "length": "0.2 cm",
+    "development": "The neural tube begins to form, which will become the brain and spinal cord.",
+    "tip": "Ensure adequate folic acid intake (600-800 mcg daily) to prevent neural tube defects.",
+    "trimester": 1
+  },
+  {
+    "week": 4,
+    "size": "poppy seed",
+    "weight": "< 1g",
+    "length": "0.2-0.4 cm",
+    "development": "The neural tube closes and the heart begins to form and beat.",
+    "tip": "Schedule your first prenatal appointment and confirm your pregnancy with a healthcare provider.",
+    "trimester": 1
+  },
+  {
+    "week": 5,
+    "size": "sesame seed",
+    "weight": "< 1g",
+    "length": "0.4-0.5 cm",
+    "development": "The heart is beating and major organs like the liver and kidneys begin to form.",
+    "tip": "Eat small, frequent meals to help manage early pregnancy nausea and maintain stable blood sugar.",
+    "trimester": 1
+  },
+  {
+    "week": 6,
+    "size": "lentil",
+    "weight": "< 1g",
+    "length": "0.6-0.7 cm",
+    "development": "Arms and leg buds appear, and the brain continues developing rapidly.",
+    "tip": "Stay hydrated and rest when needed - fatigue is common in early pregnancy.",
+    "trimester": 1
+  },
+  {
+    "week": 7,
+    "size": "blueberry",
+    "weight": "< 1g",
+    "length": "0.9-1.0 cm",
+    "development": "Facial features begin to form, and the heart divides into four chambers.",
+    "tip": "Avoid raw fish, unpasteurized dairy, and deli meats to reduce risk of foodborne illness.",
+    "trimester": 1
+  },
+  {
+    "week": 8,
+    "size": "kidney bean",
+    "weight": "< 1g",
+    "length": "1.3-1.6 cm",
+    "development": "Fingers and toes start to form, and the baby begins making small movements.",
+    "tip": "Listen to your body's signals for rest and don't push yourself too hard.",
+    "trimester": 1
+  },
+  {
+    "week": 9,
+    "size": "grape",
+    "weight": "2g",
+    "length": "2.3 cm",
+    "development": "The tail disappears and all essential organs are present, though still developing.",
+    "tip": "Consider joining a pregnancy support group or connecting with other expecting parents.",
+    "trimester": 1
+  },
+  {
+    "week": 10,
+    "size": "kumquat",
+    "weight": "4g",
+    "length": "3.1 cm",
+    "development": "The baby is now called a fetus, and vital organs are functioning.",
+    "tip": "Start thinking about your birth plan and discuss options with your healthcare provider.",
+    "trimester": 1
+  },
+  {
+    "week": 11,
+    "size": "fig",
+    "weight": "7g",
+    "length": "4.1 cm",
+    "development": "The baby's head makes up about half its body size, and genitals begin to develop.",
+    "tip": "Continue eating a balanced diet rich in fruits, vegetables, whole grains, and lean proteins.",
+    "trimester": 1
+  },
+  {
+    "week": 12,
+    "size": "lime",
+    "weight": "14g",
+    "length": "5.4 cm",
+    "development": "Reflexes develop and the baby can open and close fingers and curl toes.",
+    "tip": "The risk of miscarriage decreases significantly after this week - you can share your news!",
+    "trimester": 1
+  },
+  {
+    "week": 13,
+    "size": "peach",
+    "weight": "23g",
+    "length": "7.4 cm",
+    "development": "Fingerprints form and the baby can make facial expressions like squinting.",
+    "tip": "Your energy may start returning - take advantage to stay active with gentle exercise.",
+    "trimester": 1
+  },
+  {
+    "week": 14,
+    "size": "lemon",
+    "weight": "43g",
+    "length": "8.7 cm",
+    "development": "The baby can make sucking motions and may begin to suck their thumb.",
+    "tip": "Start wearing maternity clothes for comfort as your belly begins to show.",
+    "trimester": 2
+  },
+  {
+    "week": 15,
+    "size": "apple",
+    "weight": "70g",
+    "length": "10.1 cm",
+    "development": "The baby's legs are now longer than the arms, and fine hair called lanugo covers the body.",
+    "tip": "Stay hydrated and consider using a pregnancy pillow for better sleep comfort.",
+    "trimester": 2
+  },
+  {
+    "week": 16,
+    "size": "avocado",
+    "weight": "100g",
+    "length": "11.6 cm",
+    "development": "The baby can hear sounds and may respond to your voice with movement.",
+    "tip": "You may start feeling baby movements (quickening) - pay attention to these special moments.",
+    "trimester": 2
+  },
+  {
+    "week": 17,
+    "size": "turnip",
+    "weight": "140g",
+    "length": "13 cm",
+    "development": "The skeleton is hardening from cartilage to bone, and fat begins to accumulate.",
+    "tip": "Practice good posture and consider prenatal yoga or stretching to ease back discomfort.",
+    "trimester": 2
+  },
+  {
+    "week": 18,
+    "size": "bell pepper",
+    "weight": "190g",
+    "length": "14.2 cm",
+    "development": "The baby can yawn, hiccup, and swallow, and may be able to hear your heartbeat.",
+    "tip": "Schedule your anatomy scan (usually between 18-22 weeks) to check baby's development.",
+    "trimester": 2
+  },
+  {
+    "week": 19,
+    "size": "mango",
+    "weight": "240g",
+    "length": "15.3 cm",
+    "development": "A protective coating called vernix caseosa begins to form on the baby's skin.",
+    "tip": "Continue eating iron-rich foods to support increased blood volume and prevent anemia.",
+    "trimester": 2
+  },
+  {
+    "week": 20,
+    "size": "banana",
+    "weight": "300g",
+    "length": "16.4 cm",
+    "development": "The baby is halfway through pregnancy and can now hear sounds from outside the womb.",
+    "tip": "This is a great time to start talking, reading, or singing to your baby - they can hear you!",
+    "trimester": 2
+  },
+  {
+    "week": 21,
+    "size": "carrot",
+    "weight": "360g",
+    "length": "26.7 cm",
+    "development": "The baby's digestive system is working, and they're swallowing amniotic fluid.",
+    "tip": "Stay active with low-impact exercises like walking, swimming, or prenatal yoga.",
+    "trimester": 2
+  },
+  {
+    "week": 22,
+    "size": "spaghetti squash",
+    "weight": "430g",
+    "length": "27.8 cm",
+    "development": "The baby's senses are developing - they can feel touch and may respond to light.",
+    "tip": "Consider starting a pregnancy journal to document your journey and baby's milestones.",
+    "trimester": 2
+  },
+  {
+    "week": 23,
+    "size": "large mango",
+    "weight": "500g",
+    "length": "28.9 cm",
+    "development": "The baby's skin is still translucent but will become more opaque as fat accumulates.",
+    "tip": "Practice Kegel exercises to strengthen pelvic floor muscles for labor and recovery.",
+    "trimester": 2
+  },
+  {
+    "week": 24,
+    "size": "corn",
+    "weight": "600g",
+    "length": "30 cm",
+    "development": "The baby's lungs are developing surfactant, important for breathing after birth.",
+    "tip": "If you haven't already, start researching childbirth classes and breastfeeding resources.",
+    "trimester": 2
+  },
+  {
+    "week": 25,
+    "size": "rutabaga",
+    "weight": "660g",
+    "length": "34.6 cm",
+    "development": "The baby's hands are fully developed and they can make a fist.",
+    "tip": "Sleep on your side (preferably left side) to improve blood flow to the baby.",
+    "trimester": 2
+  },
+  {
+    "week": 26,
+    "size": "scallion",
+    "weight": "760g",
+    "length": "35.6 cm",
+    "development": "The baby's eyes can open and close, and they can distinguish between light and dark.",
+    "tip": "Start preparing your nursery and baby registry - you're entering the third trimester soon!",
+    "trimester": 2
+  },
+  {
+    "week": 27,
+    "size": "cauliflower",
+    "weight": "875g",
+    "length": "36.6 cm",
+    "development": "The baby's brain is very active, and they may have regular sleep and wake cycles.",
+    "tip": "This is the last week of the second trimester - celebrate this milestone!",
+    "trimester": 2
+  },
+  {
+    "week": 28,
+    "size": "eggplant",
+    "weight": "1kg",
+    "length": "37.6 cm",
+    "development": "The baby can blink their eyes and has eyelashes. Brain tissue is developing rapidly.",
+    "tip": "Start counting fetal movements daily - you should feel at least 10 movements in 2 hours.",
+    "trimester": 3
+  },
+  {
+    "week": 29,
+    "size": "butternut squash",
+    "weight": "1.2kg",
+    "length": "38.6 cm",
+    "development": "The baby's bones are fully developed but still soft and flexible for birth.",
+    "tip": "Continue eating small, frequent meals to manage heartburn and maintain energy levels.",
+    "trimester": 3
+  },
+  {
+    "week": 30,
+    "size": "cabbage",
+    "weight": "1.3kg",
+    "length": "39.9 cm",
+    "development": "The baby can regulate their own body temperature and is gaining weight rapidly.",
+    "tip": "Pack your hospital bag and finalize your birth plan with your healthcare provider.",
+    "trimester": 3
+  },
+  {
+    "week": 31,
+    "size": "coconut",
+    "weight": "1.5kg",
+    "length": "41.1 cm",
+    "development": "The baby's brain connections are multiplying, and they can process information.",
+    "tip": "Rest frequently and elevate your feet to reduce swelling in your legs and ankles.",
+    "trimester": 3
+  },
+  {
+    "week": 32,
+    "size": "squash",
+    "weight": "1.7kg",
+    "length": "42.4 cm",
+    "development": "The baby's skin is becoming less wrinkled as they gain more fat.",
+    "tip": "Attend childbirth classes and tour your hospital or birthing center if you haven't already.",
+    "trimester": 3
+  },
+  {
+    "week": 33,
+    "size": "pineapple",
+    "weight": "1.9kg",
+    "length": "43.7 cm",
+    "development": "The baby's immune system is developing, and they're practicing breathing movements.",
+    "tip": "Stay hydrated and continue taking prenatal vitamins - your baby needs extra nutrients now.",
+    "trimester": 3
+  },
+  {
+    "week": 34,
+    "size": "cantaloupe",
+    "weight": "2.1kg",
+    "length": "45 cm",
+    "development": "The baby's central nervous system is maturing, and their lungs are nearly fully developed.",
+    "tip": "Practice relaxation techniques and breathing exercises to prepare for labor.",
+    "trimester": 3
+  },
+  {
+    "week": 35,
+    "size": "honeydew melon",
+    "weight": "2.4kg",
+    "length": "46.2 cm",
+    "development": "The baby's kidneys are fully developed, and their liver can process waste products.",
+    "tip": "Most babies born at this stage do well, but every week in the womb helps with development.",
+    "trimester": 3
+  },
+  {
+    "week": 36,
+    "size": "romaine lettuce",
+    "weight": "2.6kg",
+    "length": "47.4 cm",
+    "development": "The baby is gaining about half a pound per week and preparing for birth.",
+    "tip": "Your baby is considered 'early term' now - they could arrive anytime!",
+    "trimester": 3
+  },
+  {
+    "week": 37,
+    "size": "swiss chard",
+    "weight": "2.9kg",
+    "length": "48.6 cm",
+    "development": "The baby is considered full-term, and their organs are ready for life outside the womb.",
+    "tip": "Your baby is full-term! Continue monitoring movements and watch for signs of labor.",
+    "trimester": 3
+  },
+  {
+    "week": 38,
+    "size": "leek",
+    "weight": "3.1kg",
+    "length": "49.8 cm",
+    "development": "The baby's brain is still developing rapidly, and they're practicing breathing.",
+    "tip": "Most babies arrive between 38-42 weeks - be patient and trust your body's timing.",
+    "trimester": 3
+  },
+  {
+    "week": 39,
+    "size": "mini watermelon",
+    "weight": "3.3kg",
+    "length": "50.7 cm",
+    "development": "The baby's lungs are fully mature and producing surfactant for breathing.",
+    "tip": "Rest as much as possible - you'll need your energy for labor and caring for your newborn.",
+    "trimester": 3
+  },
+  {
+    "week": 40,
+    "size": "small pumpkin",
+    "weight": "3.4kg",
+    "length": "51.2 cm",
+    "development": "The baby is ready for birth, and their systems are fully developed.",
+    "tip": "Your due date is here! Stay calm and remember that only 5% of babies arrive exactly on their due date.",
+    "trimester": 3
+  },
+  {
+    "week": 41,
+    "size": "watermelon",
+    "weight": "3.5kg",
+    "length": "51.5 cm",
+    "development": "The baby continues to gain weight and their skin may be peeling as new skin forms.",
+    "tip": "Your healthcare provider may discuss induction options if baby hasn't arrived yet - discuss your preferences.",
+    "trimester": 3
+  },
+  {
+    "week": 42,
+    "size": "watermelon",
+    "weight": "3.6kg",
+    "length": "51.7 cm",
+    "development": "The baby is fully developed and ready for birth - post-term pregnancy monitoring is important.",
+    "tip": "Most providers recommend delivery by 42 weeks - discuss induction or monitoring with your healthcare team.",
+    "trimester": 3
+  }
+]

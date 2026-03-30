@@ -1,0 +1,380 @@
+[
+  {
+    "week": 1,
+    "size": "semilla de amapola",
+    "weight": "< 1g",
+    "length": "0.1cm",
+    "development": "Ocurre la fertilizacion y el cigoto comienza a dividirse rapidamente.",
+    "tip": "Comienza a tomar vitaminas prenatales con acido folico para apoyar el desarrollo temprano del tubo neural.",
+    "trimester": 1
+  },
+  {
+    "week": 2,
+    "size": "semilla de amapola",
+    "weight": "< 1g",
+    "length": "0.2cm",
+    "development": "El ovulo fertilizado se implanta en la pared uterina y comienza a formar la placenta.",
+    "tip": "Continua tomando vitaminas prenatales y evita el alcohol, el tabaco y ciertos medicamentos.",
+    "trimester": 1
+  },
+  {
+    "week": 3,
+    "size": "semilla de sesamo",
+    "weight": "< 1g",
+    "length": "0.3cm",
+    "development": "El tubo neural comienza a formarse, el cual se convertira en el cerebro y la medula espinal.",
+    "tip": "Asegura una ingesta adecuada de acido folico (600-800 mcg diarios) para prevenir defectos del tubo neural.",
+    "trimester": 1
+  },
+  {
+    "week": 4,
+    "size": "semilla de amapola",
+    "weight": "< 1g",
+    "length": "0.4cm",
+    "development": "El tubo neural se cierra y el corazon comienza a formarse y a latir.",
+    "tip": "Programa tu primera cita prenatal y confirma tu embarazo con un profesional de la salud.",
+    "trimester": 1
+  },
+  {
+    "week": 5,
+    "size": "semilla de sesamo",
+    "weight": "< 1g",
+    "length": "0.5cm",
+    "development": "El corazon esta latiendo y organos principales como el higado y los rinones comienzan a formarse.",
+    "tip": "Come comidas pequenas y frecuentes para ayudar a controlar las nauseas del embarazo y mantener el azucar en sangre estable.",
+    "trimester": 1
+  },
+  {
+    "week": 6,
+    "size": "lenteja",
+    "weight": "< 1g",
+    "length": "0.6cm",
+    "development": "Aparecen los brotes de brazos y piernas, y el cerebro continua desarrollandose rapidamente.",
+    "tip": "Mantente hidratada y descansa cuando lo necesites - la fatiga es comun en el embarazo temprano.",
+    "trimester": 1
+  },
+  {
+    "week": 7,
+    "size": "arandano",
+    "weight": "< 1g",
+    "length": "0.8cm",
+    "development": "Los rasgos faciales comienzan a formarse y el corazon se divide en cuatro camaras.",
+    "tip": "Evita el pescado crudo, los lacteos no pasteurizados y los embutidos para reducir el riesgo de enfermedades transmitidas por alimentos.",
+    "trimester": 1
+  },
+  {
+    "week": 8,
+    "size": "frijol",
+    "weight": "< 1g",
+    "length": "1.3-1.6cm",
+    "development": "Los dedos de manos y pies comienzan a formarse, y el bebe empieza a hacer pequenos movimientos.",
+    "tip": "Escucha las senales de tu cuerpo para descansar y no te exijas demasiado.",
+    "trimester": 1
+  },
+  {
+    "week": 9,
+    "size": "uva",
+    "weight": "2g",
+    "length": "2.3cm",
+    "development": "La cola desaparece y todos los organos esenciales estan presentes, aunque aun en desarrollo.",
+    "tip": "Considera unirte a un grupo de apoyo para embarazadas o conectar con otros futuros padres.",
+    "trimester": 1
+  },
+  {
+    "week": 10,
+    "size": "kumquat",
+    "weight": "4g",
+    "length": "3.1cm",
+    "development": "El bebe ahora se llama feto y los organos vitales estan funcionando.",
+    "tip": "Comienza a pensar en tu plan de parto y discute las opciones con tu profesional de la salud.",
+    "trimester": 1
+  },
+  {
+    "week": 11,
+    "size": "higo",
+    "weight": "7g",
+    "length": "4.1cm",
+    "development": "La cabeza del bebe representa aproximadamente la mitad de su tamano corporal y los genitales comienzan a desarrollarse.",
+    "tip": "Continua comiendo una dieta equilibrada rica en frutas, verduras, granos integrales y proteinas magras.",
+    "trimester": 1
+  },
+  {
+    "week": 12,
+    "size": "lima",
+    "weight": "14g",
+    "length": "5.4cm",
+    "development": "Se desarrollan los reflejos y el bebe puede abrir y cerrar los dedos y enroscar los dedos de los pies.",
+    "tip": "El riesgo de aborto espontaneo disminuye significativamente despues de esta semana - puedes compartir la noticia!",
+    "trimester": 1
+  },
+  {
+    "week": 13,
+    "size": "durazno",
+    "weight": "23g",
+    "length": "7.4cm",
+    "development": "Se forman las huellas dactilares y el bebe puede hacer expresiones faciales como entrecerrar los ojos.",
+    "tip": "Tu energia puede empezar a regresar - aprovecha para mantenerte activa con ejercicio suave.",
+    "trimester": 2
+  },
+  {
+    "week": 14,
+    "size": "limon",
+    "weight": "43g",
+    "length": "8.7cm",
+    "development": "El bebe puede hacer movimientos de succion y puede comenzar a chuparse el pulgar.",
+    "tip": "Comienza a usar ropa de maternidad para mayor comodidad a medida que tu barriga empieza a notarse.",
+    "trimester": 2
+  },
+  {
+    "week": 15,
+    "size": "manzana",
+    "weight": "70g",
+    "length": "10.1cm",
+    "development": "Las piernas del bebe ahora son mas largas que los brazos, y un vello fino llamado lanugo cubre el cuerpo.",
+    "tip": "Mantente hidratada y considera usar una almohada de embarazo para mayor comodidad al dormir.",
+    "trimester": 2
+  },
+  {
+    "week": 16,
+    "size": "aguacate",
+    "weight": "100g",
+    "length": "11.6cm",
+    "development": "El bebe puede escuchar sonidos y puede responder a tu voz con movimiento.",
+    "tip": "Puedes empezar a sentir los movimientos del bebe (primeros movimientos fetales) - presta atencion a estos momentos especiales.",
+    "trimester": 2
+  },
+  {
+    "week": 17,
+    "size": "nabo",
+    "weight": "140g",
+    "length": "13cm",
+    "development": "El esqueleto se esta endureciendo de cartilago a hueso, y la grasa comienza a acumularse.",
+    "tip": "Practica buena postura y considera yoga prenatal o estiramientos para aliviar las molestias de espalda.",
+    "trimester": 2
+  },
+  {
+    "week": 18,
+    "size": "pimiento",
+    "weight": "190g",
+    "length": "14.2cm",
+    "development": "El bebe puede bostezar, tener hipo y tragar, y puede ser capaz de escuchar tu latido del corazon.",
+    "tip": "Programa tu ecografia morfologica (generalmente entre las semanas 18-22) para verificar el desarrollo del bebe.",
+    "trimester": 2
+  },
+  {
+    "week": 19,
+    "size": "mango",
+    "weight": "240g",
+    "length": "15.3cm",
+    "development": "Una capa protectora llamada vernix caseosa comienza a formarse en la piel del bebe.",
+    "tip": "Continua comiendo alimentos ricos en hierro para apoyar el aumento del volumen sanguineo y prevenir la anemia.",
+    "trimester": 2
+  },
+  {
+    "week": 20,
+    "size": "banana",
+    "weight": "300g",
+    "length": "16.4cm",
+    "development": "El bebe esta a la mitad del embarazo y ahora puede escuchar sonidos desde fuera del utero.",
+    "tip": "Este es un buen momento para empezar a hablarle, leerle o cantarle a tu bebe - te puede escuchar!",
+    "trimester": 2
+  },
+  {
+    "week": 21,
+    "size": "zanahoria",
+    "weight": "360g",
+    "length": "26.7cm",
+    "development": "El sistema digestivo del bebe esta funcionando y esta tragando liquido amniotico.",
+    "tip": "Mantente activa con ejercicios de bajo impacto como caminar, nadar o yoga prenatal.",
+    "trimester": 2
+  },
+  {
+    "week": 22,
+    "size": "calabaza espagueti",
+    "weight": "430g",
+    "length": "27.8cm",
+    "development": "Los sentidos del bebe se estan desarrollando - puede sentir el tacto y puede responder a la luz.",
+    "tip": "Considera comenzar un diario de embarazo para documentar tu experiencia y los hitos del bebe.",
+    "trimester": 2
+  },
+  {
+    "week": 23,
+    "size": "mango grande",
+    "weight": "500g",
+    "length": "28.9cm",
+    "development": "La piel del bebe aun es translucida pero se volvera mas opaca a medida que se acumule grasa.",
+    "tip": "Practica ejercicios de Kegel para fortalecer los musculos del suelo pelvico para el parto y la recuperacion.",
+    "trimester": 2
+  },
+  {
+    "week": 24,
+    "size": "mazorca de maiz",
+    "weight": "600g",
+    "length": "30cm",
+    "development": "Los pulmones del bebe estan desarrollando surfactante, importante para respirar despues del nacimiento.",
+    "tip": "Si aun no lo has hecho, comienza a investigar clases de preparacion al parto y recursos de lactancia.",
+    "trimester": 2
+  },
+  {
+    "week": 25,
+    "size": "colinabo",
+    "weight": "660g",
+    "length": "34.6cm",
+    "development": "Las manos del bebe estan completamente desarrolladas y puede cerrar el puno.",
+    "tip": "Duerme de lado (preferiblemente del lado izquierdo) para mejorar el flujo sanguineo hacia el bebe.",
+    "trimester": 2
+  },
+  {
+    "week": 26,
+    "size": "cebolla larga",
+    "weight": "760g",
+    "length": "35.6cm",
+    "development": "Los ojos del bebe pueden abrirse y cerrarse, y puede distinguir entre la luz y la oscuridad.",
+    "tip": "Comienza a preparar la habitacion del bebe y tu lista de regalos - pronto entraras al tercer trimestre!",
+    "trimester": 2
+  },
+  {
+    "week": 27,
+    "size": "coliflor",
+    "weight": "875g",
+    "length": "36.6cm",
+    "development": "El cerebro del bebe esta muy activo y puede tener ciclos regulares de sueno y vigilia.",
+    "tip": "Esta es la ultima semana del segundo trimestre - celebra este logro!",
+    "trimester": 2
+  },
+  {
+    "week": 28,
+    "size": "berenjena",
+    "weight": "1kg",
+    "length": "37.6cm",
+    "development": "El bebe puede parpadear y tiene pestanas. El tejido cerebral se esta desarrollando rapidamente.",
+    "tip": "Comienza a contar los movimientos fetales diariamente - deberias sentir al menos 10 movimientos en 2 horas.",
+    "trimester": 3
+  },
+  {
+    "week": 29,
+    "size": "calabaza butternut",
+    "weight": "1.2kg",
+    "length": "38.6cm",
+    "development": "Los huesos del bebe estan completamente desarrollados pero aun son suaves y flexibles para el parto.",
+    "tip": "Continua comiendo comidas pequenas y frecuentes para controlar la acidez estomacal y mantener los niveles de energia.",
+    "trimester": 3
+  },
+  {
+    "week": 30,
+    "size": "repollo",
+    "weight": "1.3kg",
+    "length": "39.9cm",
+    "development": "El bebe puede regular su propia temperatura corporal y esta ganando peso rapidamente.",
+    "tip": "Prepara tu bolsa para el hospital y finaliza tu plan de parto con tu profesional de la salud.",
+    "trimester": 3
+  },
+  {
+    "week": 31,
+    "size": "coco",
+    "weight": "1.5kg",
+    "length": "41.1cm",
+    "development": "Las conexiones cerebrales del bebe se estan multiplicando y puede procesar informacion.",
+    "tip": "Descansa frecuentemente y eleva los pies para reducir la hinchazon en piernas y tobillos.",
+    "trimester": 3
+  },
+  {
+    "week": 32,
+    "size": "calabaza",
+    "weight": "1.7kg",
+    "length": "42.4cm",
+    "development": "La piel del bebe se esta volviendo menos arrugada a medida que gana mas grasa.",
+    "tip": "Asiste a clases de preparacion al parto y visita tu hospital o centro de maternidad si aun no lo has hecho.",
+    "trimester": 3
+  },
+  {
+    "week": 33,
+    "size": "pina",
+    "weight": "1.9kg",
+    "length": "43.7cm",
+    "development": "El sistema inmunologico del bebe se esta desarrollando y esta practicando movimientos respiratorios.",
+    "tip": "Mantente hidratada y continua tomando vitaminas prenatales - tu bebe necesita nutrientes adicionales ahora.",
+    "trimester": 3
+  },
+  {
+    "week": 34,
+    "size": "melon cantalupo",
+    "weight": "2.1kg",
+    "length": "45cm",
+    "development": "El sistema nervioso central del bebe esta madurando y sus pulmones estan casi completamente desarrollados.",
+    "tip": "Practica tecnicas de relajacion y ejercicios de respiracion para prepararte para el parto.",
+    "trimester": 3
+  },
+  {
+    "week": 35,
+    "size": "melon verde",
+    "weight": "2.4kg",
+    "length": "46.2cm",
+    "development": "Los rinones del bebe estan completamente desarrollados y su higado puede procesar productos de desecho.",
+    "tip": "La mayoria de los bebes nacidos en esta etapa evolucionan bien, pero cada semana en el utero ayuda con el desarrollo.",
+    "trimester": 3
+  },
+  {
+    "week": 36,
+    "size": "lechuga romana",
+    "weight": "2.6kg",
+    "length": "47.4cm",
+    "development": "El bebe esta ganando aproximadamente media libra por semana y se esta preparando para el nacimiento.",
+    "tip": "Tu bebe ahora se considera 'a termino temprano' - podria llegar en cualquier momento!",
+    "trimester": 3
+  },
+  {
+    "week": 37,
+    "size": "acelga",
+    "weight": "2.9kg",
+    "length": "48.6cm",
+    "development": "El bebe se considera a termino completo y sus organos estan listos para la vida fuera del utero.",
+    "tip": "Tu bebe esta a termino completo! Continua monitoreando los movimientos y esta atenta a las senales de parto.",
+    "trimester": 3
+  },
+  {
+    "week": 38,
+    "size": "puerro",
+    "weight": "3.1kg",
+    "length": "49.8cm",
+    "development": "El cerebro del bebe aun se esta desarrollando rapidamente y esta practicando la respiracion.",
+    "tip": "La mayoria de los bebes llegan entre las semanas 38-42 - se paciente y confia en el ritmo de tu cuerpo.",
+    "trimester": 3
+  },
+  {
+    "week": 39,
+    "size": "mini sandia",
+    "weight": "3.3kg",
+    "length": "50.7cm",
+    "development": "Los pulmones del bebe estan completamente maduros y produciendo surfactante para la respiracion.",
+    "tip": "Descansa todo lo posible - necesitaras tu energia para el parto y el cuidado de tu recien nacido.",
+    "trimester": 3
+  },
+  {
+    "week": 40,
+    "size": "calabaza pequena",
+    "weight": "3.4kg",
+    "length": "51.2cm",
+    "development": "El bebe esta listo para nacer y todos sus sistemas estan completamente desarrollados.",
+    "tip": "Tu fecha de parto ha llegado! Mantente tranquila y recuerda que solo el 5% de los bebes llegan exactamente en su fecha estimada.",
+    "trimester": 3
+  },
+  {
+    "week": 41,
+    "size": "sandia",
+    "weight": "3.5kg",
+    "length": "51.5cm",
+    "development": "El bebe continua ganando peso y su piel puede estar pelandose mientras se forma piel nueva.",
+    "tip": "Tu profesional de la salud puede discutir opciones de induccion si el bebe aun no ha llegado - discute tus preferencias.",
+    "trimester": 3
+  },
+  {
+    "week": 42,
+    "size": "sandia",
+    "weight": "3.6kg",
+    "length": "51.7cm",
+    "development": "El bebe esta completamente desarrollado y listo para nacer - el monitoreo del embarazo postermino es importante.",
+    "tip": "La mayoria de los profesionales recomiendan el parto antes de las 42 semanas - discute la induccion o el monitoreo con tu equipo de salud.",
+    "trimester": 3
+  }
+]

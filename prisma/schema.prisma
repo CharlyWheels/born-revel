@@ -1,0 +1,179 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ─── Users & Ownership ───────────────────────────────────────
+
+model User {
+  id        String       @id // Firebase UID
+  email     String       @unique
+  name      String?
+  country   String       @default("ES")
+  babies    BabyOwner[]
+  articles  Article[]    @relation("ArticleCreator")
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+}
+
+model Baby {
+  id                      String            @id @default(uuid())
+  name                    String            // Baby name or family surname
+  dueDate                 DateTime          // Estimated birth date
+  customSlug              String            @unique // Custom URL slug for public access
+  country                 String            @default("ES")
+
+  // Feature toggles
+  giftRegistryEnabled     Boolean           @default(false)
+  pregnancyTrackerEnabled Boolean           @default(false)
+  birthBettingEnabled     Boolean           @default(false)
+
+  // Gift registry settings (JSON)
+  giftRegistrySettings    Json?
+
+  // Pregnancy tracker settings
+  pregnancyTrackerPublic  Boolean           @default(false)
+  pregnancyTrackerSettings Json?
+  pregnancyStartDate      DateTime?
+
+  // Birth betting settings (JSON)
+  bettingSettings         Json?
+
+  // Relations
+  owners                  BabyOwner[]
+  giftItems               GiftItem[]
+  bets                    Bet[]
+  invitations             OwnerInvitation[]
+  paymentConfigs          PaymentConfig[]
+
+  createdAt               DateTime          @default(now())
+  updatedAt               DateTime          @updatedAt
+}
+
+model BabyOwner {
+  id      Int    @id @default(autoincrement())
+  userId  String
+  babyId  String
+  role    String @default("primary") // primary | co-owner
+
+  user    User   @relation(fields: [userId], references: [id])
+  baby    Baby   @relation(fields: [babyId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, babyId])
+}
+
+model OwnerInvitation {
+  id        Int      @id @default(autoincrement())
+  babyId    String
+  email     String
+  token     String   @unique @default(uuid())
+  status    String   @default("pending") // pending | accepted | declined
+
+  baby      Baby     @relation(fields: [babyId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+}
+
+// ─── Master Product Database ─────────────────────────────────
+
+model Article {
+  id              Int               @id @default(autoincrement())
+  name            String
+  description     String?
+  imageUrls       String[]
+  category        String?
+  brand           String?
+  createdById     String?
+  createdBy       User?             @relation("ArticleCreator", fields: [createdById], references: [id])
+
+  articleProviders ArticleProvider[]
+  giftItems       GiftItem[]
+
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+}
+
+model Provider {
+  id               Int               @id @default(autoincrement())
+  name             String
+  logoUrl          String?
+  country          String            @default("ES")
+  websiteUrl       String?
+
+  articleProviders ArticleProvider[]
+
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+}
+
+model ArticleProvider {
+  id          Int       @id @default(autoincrement())
+  articleId   Int
+  providerId  Int
+  price       Float?
+  buyUrl      String?
+  location    String?
+  details     String?
+  imageUrl    String?
+  lastScraped DateTime?
+
+  article     Article   @relation(fields: [articleId], references: [id], onDelete: Cascade)
+  provider    Provider  @relation(fields: [providerId], references: [id], onDelete: Cascade)
+
+  @@unique([articleId, providerId])
+}
+
+// ─── Gift Registry ───────────────────────────────────────────
+
+model GiftItem {
+  id              Int      @id @default(autoincrement())
+  babyId          String
+  articleId       Int
+  acceptSimilar   Boolean  @default(false)
+  priceRangeMin   Float?
+  priceRangeMax   Float?
+  status          String   @default("available") // available | reserved | bought | donated | paid
+  reservedByName  String?
+  reservationType String?  // buy | donate | pay
+  providerIds     Int[]    // Selected provider IDs to show publicly
+
+  baby            Baby     @relation(fields: [babyId], references: [id], onDelete: Cascade)
+  article         Article  @relation(fields: [articleId], references: [id])
+
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+// ─── Birth Date Betting ──────────────────────────────────────
+
+model Bet {
+  id           Int       @id @default(autoincrement())
+  babyId       String
+  betterName   String
+  betterEmail  String?
+  betDate      DateTime
+  betDateEnd   DateTime? // If range betting is allowed
+  verified     Boolean   @default(false)
+
+  baby         Baby      @relation(fields: [babyId], references: [id], onDelete: Cascade)
+
+  createdAt    DateTime  @default(now())
+
+  @@unique([babyId, betterName])
+}
+
+// ─── Payment Configuration ───────────────────────────────────
+
+model PaymentConfig {
+  id          Int    @id @default(autoincrement())
+  babyId      String
+  featureType String // gift | betting
+  methods     Json   // { bizum: { enabled, phone }, bankAccount: { enabled, iban }, cash: { enabled }, paypal: { enabled, email } }
+
+  baby        Baby   @relation(fields: [babyId], references: [id], onDelete: Cascade)
+
+  @@unique([babyId, featureType])
+}
