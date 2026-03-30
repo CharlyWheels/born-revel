@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
+import Link from 'next/link';
 import Layout from '../../../components/Layout';
 import BettingCalendar from '../../../components/BettingCalendar';
 import PlaceBetModal from '../../../components/PlaceBetModal';
@@ -137,6 +138,12 @@ const PublicBetsPage = () => {
   return (
     <Layout gradient="from-emerald-500 via-green-500 to-yellow-500">
       <div className="max-w-7xl mx-auto px-4 py-8">
+        {/* Back Arrow */}
+        <Link href={`/b/${customSlug}`} className="inline-flex items-center gap-2 text-white/80 hover:text-white mb-6 transition-colors">
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
+          <span>{t('publicBaby.backToMain', { name: babyData?.name })}</span>
+        </Link>
+
         {/* Header */}
         <div className="mb-8 text-center">
           <h1 className="text-4xl font-bold text-white drop-shadow-lg mb-2">{babyData?.name}</h1>

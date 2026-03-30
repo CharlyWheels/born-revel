@@ -87,11 +87,6 @@ const PublicBabyPage = () => {
           <h1 className="text-5xl font-extrabold text-white drop-shadow-lg mb-3">
             {babyData.name}
           </h1>
-          {babyData.owners && babyData.owners.length > 0 && (
-            <p className="text-white/80 text-lg mb-4">
-              By {babyData.owners.map((o) => o.name || 'Parent').join(' & ')}
-            </p>
-          )}
           {babyData.dueDate && (
             <div className="inline-block bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl px-6 py-4">
               <p className="text-white/70 text-sm">{t('publicBaby.expectedArrival')}</p>

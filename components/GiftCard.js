@@ -210,16 +210,6 @@ const GiftCard = ({ giftItem, isOwner, onReserve, onEdit, onDelete, onRescrape }
       )}
 
       {/* Reserved Info */}
-      {isReserved && reservedByName && (
-        <div className="text-white/70 text-sm mt-2">
-          {reservationType && (
-            <span className="font-medium">
-              {reservationTypeLabels[reservationType] || t('giftCard.reserved')} {t('giftCard.by')}{' '}
-            </span>
-          )}
-          {reservedByName}
-        </div>
-      )}
 
       {/* Provider Logos */}
       {displayProviders.length > 0 && (

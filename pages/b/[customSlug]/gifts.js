@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
+import Link from 'next/link';
 import Layout from '../../../components/Layout';
 import GiftCard from '../../../components/GiftCard';
 import ReserveModal from '../../../components/ReserveModal';
@@ -103,15 +104,16 @@ const PublicGiftRegistry = () => {
   return (
     <Layout gradient="from-pink-500 via-rose-500 to-orange-500">
       <div className="max-w-6xl mx-auto px-4 py-8">
+        {/* Back Arrow */}
+        <Link href={`/b/${customSlug}`} className="inline-flex items-center gap-2 text-white/80 hover:text-white mb-6 transition-colors">
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
+          <span>{t('publicBaby.backToMain', { name: babyData.name })}</span>
+        </Link>
+
         {/* Baby Name */}
         <h1 className="text-4xl font-bold text-white mb-2 text-center">
           {t('publicGifts.registryTitle', { name: babyData.name })}
         </h1>
-        {babyData.owners && babyData.owners.length > 0 && (
-          <p className="text-white/80 text-center mb-8">
-            {t('publicGifts.for', { owners: babyData.owners.map((o) => o.name).join(' & ') })}
-          </p>
-        )}
 
         {/* Available Items */}
         {availableItems.length > 0 && (
