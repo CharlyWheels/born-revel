@@ -1,40 +1,75 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/pages/api-reference/create-next-app).
+# Revel.Baby
 
-## Getting Started
+Shareable baby page for expecting parents. Each baby has a public page (`/b/<slug>`) with up to three optional features:
 
-First, run the development server:
+- **Gift registry** — parents add products (scraped from a URL via OpenAI + Bright Data); visitors reserve / buy / donate / pay.
+- **Pregnancy tracker** — week-by-week info, optionally public.
+- **Birth-date betting** — friends bet on the birth date; owners approve; email notifications via Resend.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+Bilingual (English / Spanish), defaults tuned for Spain/EU (Bizum, EUR, `ES`).
+
+## Tech stack
+
+- **Next.js 15** (Pages Router) + **React 19**, JavaScript
+- **Tailwind CSS 3**
+- **Prisma 6** + **PostgreSQL**
+- **Firebase Auth** (client) + **firebase-admin** (server-side ID-token verification)
+- **Resend** (email), **OpenAI** + **Bright Data** + **Cheerio** (product scraping)
+
+## Architecture notes
+
+- **Auth:** users sign in with Firebase on the client. Every authenticated API call goes through `lib/apiClient.js#apiFetch`, which attaches the user's Firebase **ID token** as `Authorization: Bearer …`. The server verifies it with `lib/apiAuth.js` (`requireAuth` / `requireOwner`) — the client never sends `userId`/`email` in the body. Public routes (`/api/public/*`, gift reservation, placing a bet) are intentionally unauthenticated.
+- **SSRF guard:** the scraper (`lib/scraping.js#assertPublicHttpUrl`) rejects non-http(s) schemes and hosts resolving to private/loopback/link-local IPs. `/api/articles/scrape` also requires auth and is rate-limited per user.
+
+## Environment variables
+
+Create a `.env` file (git-ignored). Required:
+
+```
+DATABASE_URL=postgresql://user:pass@host:5432/db
+
+# Firebase client (NEXT_PUBLIC_* are exposed to the browser)
+NEXT_PUBLIC_FIREBASE_API_KEY=...
+NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=...
+NEXT_PUBLIC_FIREBASE_PROJECT_ID=...
+NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=...
+NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=...
+NEXT_PUBLIC_FIREBASE_APP_ID=...
+NEXT_PUBLIC_BASE_URL=http://localhost:3000
+
+# Firebase Admin — service-account JSON (single line) OR set GOOGLE_APPLICATION_CREDENTIALS to a key file
+FIREBASE_SERVICE_ACCOUNT={"type":"service_account", ...}
+
+# Integrations
+RESEND_API_KEY=...
+OPENAI_API_KEY=...
+BRIGHTDATA_API_KEY=...      # optional; falls back to basic Cheerio scraping
+FROM_EMAIL=Revel Baby <noreply@revel.baby>   # optional
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+> `FIREBASE_SERVICE_ACCOUNT` is required for the API to verify tokens. Without it, authenticated routes return 401. Get it from the Firebase console → Project settings → Service accounts → Generate new private key.
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+## Local development
 
-[API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+```bash
+npm install
+npx prisma generate
+npx prisma migrate deploy   # or `migrate dev` against a local DB
+npm run dev                 # http://localhost:3000
+```
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) instead of React pages.
+## Docker
 
-This project uses [`next/font`](https://nextjs.org/docs/pages/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+docker compose up --build          # starts postgres + app
+docker compose --profile migrate up migrate   # run migrations
+```
 
-## Learn More
+Set the env vars above in your shell / `.env` before building (the `NEXT_PUBLIC_*` vars are baked in at build time). `POSTGRES_PASSWORD` must be provided in production — do not rely on the compose default.
 
-To learn more about Next.js, take a look at the following resources:
+## Scripts
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn-pages-router) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/pages/building-your-application/deploying) for more details.
+- `npm run dev` — dev server
+- `npm run build` — production build
+- `npm run start` — serve the production build
+- `npm run lint` — ESLint

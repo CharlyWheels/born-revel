@@ -1,10 +1,16 @@
 import prisma from '../../../../../lib/prisma';
 import { sendBetNotification } from '../../../../../lib/email';
+import { requireOwner } from '../../../../../lib/apiAuth';
 
 export default async function handler(req, res) {
   const { babyId } = req.query;
 
   if (req.method === 'GET') {
+    // Full bet list includes bettor emails — owner-only.
+    // Public visitors read bets through /api/public/[customSlug].
+    const owner = await requireOwner(req, res, babyId);
+    if (!owner) return;
+
     try {
       const bets = await prisma.bet.findMany({
         where: { babyId },

@@ -1,5 +1,6 @@
 import prisma from '../../../../../../lib/prisma';
 import { sendBetApproval } from '../../../../../../lib/email';
+import { requireOwner } from '../../../../../../lib/apiAuth';
 
 export default async function handler(req, res) {
   if (req.method !== 'PUT') {
@@ -7,13 +8,20 @@ export default async function handler(req, res) {
     return res.status(405).end(`Method ${req.method} Not Allowed`);
   }
 
-  const { betId } = req.query;
-  const betIdInt = parseInt(betId);
+  const { babyId, betId } = req.query;
+  const betIdInt = Number.parseInt(betId, 10);
   const { approved } = req.body;
+
+  if (Number.isNaN(betIdInt)) {
+    return res.status(400).json({ error: 'Invalid bet id' });
+  }
 
   if (approved === undefined) {
     return res.status(400).json({ error: 'approved field is required' });
   }
+
+  const owner = await requireOwner(req, res, babyId);
+  if (!owner) return;
 
   try {
     const bet = await prisma.bet.findUnique({
@@ -21,7 +29,7 @@ export default async function handler(req, res) {
       include: { baby: true },
     });
 
-    if (!bet) {
+    if (!bet || bet.babyId !== babyId) {
       return res.status(404).json({ error: 'Bet not found' });
     }
 

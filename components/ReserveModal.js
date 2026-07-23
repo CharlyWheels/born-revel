@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useLanguage } from '../context/LanguageContext';
+import { GIFT_PLACEHOLDER_IMAGE } from '../lib/images';
 
 const ReserveModal = ({ giftItem, paymentConfig, onClose, onReserve }) => {
   const { t, language } = useLanguage();
@@ -50,7 +51,11 @@ const ReserveModal = ({ giftItem, paymentConfig, onClose, onReserve }) => {
       <div className="absolute inset-0 bg-black/50 backdrop-blur-sm"></div>
 
       {/* Modal */}
-      <div className="relative bg-white/10 backdrop-blur-xl rounded-2xl border border-white/20 shadow-2xl max-w-md w-full max-h-[90vh] overflow-y-auto transform transition-all duration-200 scale-100">
+      <div
+        role="dialog"
+        aria-modal="true"
+        className="relative bg-white/10 backdrop-blur-xl rounded-2xl border border-white/20 shadow-2xl max-w-md w-full max-h-[90vh] overflow-y-auto transform transition-all duration-200 scale-100"
+      >
         <div className="p-6">
           {/* Close Button */}
           <button
@@ -79,7 +84,7 @@ const ReserveModal = ({ giftItem, paymentConfig, onClose, onReserve }) => {
               alt={article?.name || 'Gift'}
               className="w-full h-full object-cover"
               onError={(e) => {
-                e.target.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="200" height="200"%3E%3Crect fill="%23ffffff20" width="200" height="200"/%3E%3Ctext fill="%23ffffff60" font-family="Arial" font-size="20" x="50%25" y="50%25" text-anchor="middle" dy=".3em"%3E🎁%3C/text%3E%3C/svg%3E';
+                e.target.src = GIFT_PLACEHOLDER_IMAGE;
               }}
             />
           </div>

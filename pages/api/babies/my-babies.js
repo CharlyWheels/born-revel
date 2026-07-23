@@ -1,4 +1,5 @@
 import prisma from '../../../lib/prisma';
+import { requireAuth } from '../../../lib/apiAuth';
 
 export default async function handler(req, res) {
   if (req.method !== 'GET') {
@@ -6,15 +7,12 @@ export default async function handler(req, res) {
     return res.status(405).end(`Method ${req.method} Not Allowed`);
   }
 
-  const { userId } = req.query;
-
-  if (!userId) {
-    return res.status(400).json({ error: 'userId query parameter is required' });
-  }
+  const auth = await requireAuth(req, res);
+  if (!auth) return;
 
   try {
     const babyOwners = await prisma.babyOwner.findMany({
-      where: { userId },
+      where: { userId: auth.uid },
       include: {
         baby: {
           include: {

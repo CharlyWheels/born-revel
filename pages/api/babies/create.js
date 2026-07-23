@@ -1,5 +1,6 @@
 import prisma from '../../../lib/prisma';
 import slugify from 'slugify';
+import { requireAuth } from '../../../lib/apiAuth';
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -7,18 +8,21 @@ export default async function handler(req, res) {
     return res.status(405).end(`Method ${req.method} Not Allowed`);
   }
 
-  const { name, dueDate, customSlug, userId, email } = req.body;
+  const auth = await requireAuth(req, res);
+  if (!auth) return;
 
-  if (!name || !dueDate || !userId || !email) {
-    return res.status(400).json({ error: 'name, dueDate, userId, and email are required' });
+  const { name, dueDate, customSlug } = req.body;
+
+  if (!name || !dueDate) {
+    return res.status(400).json({ error: 'name and dueDate are required' });
   }
 
   try {
-    // Ensure user exists
-    let user = await prisma.user.findUnique({ where: { id: userId } });
+    // Ensure user exists (identity derived from the verified token, not the body)
+    let user = await prisma.user.findUnique({ where: { id: auth.uid } });
     if (!user) {
       user = await prisma.user.create({
-        data: { id: userId, email },
+        data: { id: auth.uid, email: auth.email },
       });
     }
 
@@ -65,6 +69,6 @@ export default async function handler(req, res) {
     res.status(201).json(fullBaby);
   } catch (error) {
     console.error('Error creating baby:', error);
-    res.status(500).json({ error: `Failed to create baby: ${error.message}` });
+    res.status(500).json({ error: 'Failed to create baby' });
   }
 }

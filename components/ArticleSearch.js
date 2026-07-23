@@ -34,15 +34,18 @@ const ArticleSearch = ({ onSelect, onCreateNew }) => {
     }
 
     setLoading(true);
+    const controller = new AbortController();
     debounceTimer.current = setTimeout(async () => {
       try {
         const response = await fetch(
-          `/api/articles/suggestions?query=${encodeURIComponent(query)}&country=${country}`
+          `/api/articles/suggestions?query=${encodeURIComponent(query)}&country=${country}`,
+          { signal: controller.signal }
         );
         const data = await response.json();
         setSuggestions(data || []);
         setIsOpen(true);
       } catch (error) {
+        if (error.name === 'AbortError') return; // superseded by a newer query
         console.error('Error fetching suggestions:', error);
         setSuggestions([]);
       } finally {
@@ -51,6 +54,8 @@ const ArticleSearch = ({ onSelect, onCreateNew }) => {
     }, 300);
 
     return () => {
+      // Cancel a stale request/timer so an older response can't overwrite a newer one.
+      controller.abort();
       if (debounceTimer.current) {
         clearTimeout(debounceTimer.current);
       }

@@ -1,8 +1,16 @@
 import prisma from '../../../../../../lib/prisma';
+import { requireOwner } from '../../../../../../lib/apiAuth';
 
 export default async function handler(req, res) {
   const { babyId, giftId } = req.query;
-  const giftIdInt = parseInt(giftId);
+  const giftIdInt = Number.parseInt(giftId, 10);
+
+  if (Number.isNaN(giftIdInt)) {
+    return res.status(400).json({ error: 'Invalid gift id' });
+  }
+
+  const owner = await requireOwner(req, res, babyId);
+  if (!owner) return;
 
   if (req.method === 'PUT') {
     const { acceptSimilar, priceRangeMin, priceRangeMax, providerIds } = req.body;
@@ -14,9 +22,18 @@ export default async function handler(req, res) {
       if (priceRangeMax !== undefined) updateData.priceRangeMax = priceRangeMax;
       if (providerIds !== undefined) updateData.providerIds = providerIds;
 
-      const giftItem = await prisma.giftItem.update({
-        where: { id: giftIdInt },
+      // Scope to the owned baby so a valid owner can't edit another baby's gift by id.
+      const { count } = await prisma.giftItem.updateMany({
+        where: { id: giftIdInt, babyId },
         data: updateData,
+      });
+
+      if (count === 0) {
+        return res.status(404).json({ error: 'Gift item not found' });
+      }
+
+      const giftItem = await prisma.giftItem.findUnique({
+        where: { id: giftIdInt },
         include: {
           article: {
             include: {
@@ -35,7 +52,10 @@ export default async function handler(req, res) {
     }
   } else if (req.method === 'DELETE') {
     try {
-      await prisma.giftItem.delete({ where: { id: giftIdInt } });
+      const { count } = await prisma.giftItem.deleteMany({ where: { id: giftIdInt, babyId } });
+      if (count === 0) {
+        return res.status(404).json({ error: 'Gift item not found' });
+      }
       res.status(204).end();
     } catch (error) {
       console.error('Error deleting gift item:', error.message);

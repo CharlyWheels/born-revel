@@ -5,6 +5,7 @@ import { auth } from '../firebase';
 import { useAuth } from '../context/AuthContext';
 import { useLanguage } from '../context/LanguageContext';
 import Layout from '../components/Layout';
+import Link from 'next/link';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -116,9 +117,9 @@ const Login = () => {
 
           <p className="text-center text-white/60 text-sm mt-6">
             {t('login.noAccount')}{' '}
-            <a href="/create" className="text-white underline hover:no-underline">
+            <Link href="/create" className="text-white underline hover:no-underline">
               {t('login.signUp')}
-            </a>
+            </Link>
           </p>
         </div>
       </div>

@@ -1,5 +1,6 @@
 import prisma from '../../../../lib/prisma';
 import { scrapeProduct } from '../../../../lib/scraping';
+import { requireAuth } from '../../../../lib/apiAuth';
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -7,8 +8,15 @@ export default async function handler(req, res) {
     return res.status(405).end(`Method ${req.method} Not Allowed`);
   }
 
+  const auth = await requireAuth(req, res);
+  if (!auth) return;
+
   const { articleId } = req.query;
-  const articleIdInt = parseInt(articleId);
+  const articleIdInt = Number.parseInt(articleId, 10);
+
+  if (Number.isNaN(articleIdInt)) {
+    return res.status(400).json({ error: 'Invalid article id' });
+  }
   const { providerId, url, price, location, details, imageUrl, providerName, providerCountry } = req.body;
 
   try {

@@ -5,6 +5,7 @@ import { useLanguage } from '../../../context/LanguageContext';
 import Layout from '../../../components/Layout';
 import ArticleSearch from '../../../components/ArticleSearch';
 import GiftCard from '../../../components/GiftCard';
+import { apiFetch } from '../../../lib/apiClient';
 
 const GiftRegistry = () => {
   const { t, language } = useLanguage();
@@ -80,7 +81,7 @@ const GiftRegistry = () => {
 
   const fetchGiftItems = async () => {
     try {
-      const response = await fetch(`/api/babies/${babyId}/gifts`);
+      const response = await apiFetch(`/api/babies/${babyId}/gifts`);
       if (response.ok) {
         const data = await response.json();
         setGiftItems(data);
@@ -144,9 +145,8 @@ const GiftRegistry = () => {
     setCreateScrapeLoading(true);
     setCreateScrapeError('');
     try {
-      const response = await fetch('/api/articles/scrape', {
+      const response = await apiFetch('/api/articles/scrape', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ url: createFormData.url }),
       });
       if (!response.ok) {
@@ -196,9 +196,8 @@ const GiftRegistry = () => {
         : [];
       const providerPrice =
         createFormData.price !== '' ? parseFloat(createFormData.price) : null;
-      const response = await fetch('/api/articles/create', {
+      const response = await apiFetch('/api/articles/create', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           name: createFormData.name,
           description: createFormData.description || null,
@@ -210,7 +209,6 @@ const GiftRegistry = () => {
           providerDetails: createFormData.providerDetails || null,
           providerImageUrl: createFormData.providerImageUrl || null,
           skipScrape: createScrapeDone,
-          userId: user?.uid,
         }),
       });
 
@@ -218,9 +216,8 @@ const GiftRegistry = () => {
         const article = await response.json();
         const providerIds =
           article.articleProviders?.map((ap) => ap.providerId || ap.provider?.id) || [];
-        const giftResponse = await fetch(`/api/babies/${babyId}/gifts`, {
+        const giftResponse = await apiFetch(`/api/babies/${babyId}/gifts`, {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             articleId: article.id,
             acceptSimilar: createGiftData.acceptSimilar,
@@ -277,9 +274,8 @@ const GiftRegistry = () => {
 
       // When editing, also update the article fields
       if (isEditing && selectedArticle) {
-        await fetch(`/api/articles/${selectedArticle.id}`, {
+        await apiFetch(`/api/articles/${selectedArticle.id}`, {
           method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             name: editArticleData.name || undefined,
             description: editArticleData.description || undefined,
@@ -294,9 +290,8 @@ const GiftRegistry = () => {
         ? `/api/babies/${babyId}/gifts/${editingGiftId}`
         : `/api/babies/${babyId}/gifts`;
 
-      const response = await fetch(url, {
+      const response = await apiFetch(url, {
         method: isEditing ? 'PUT' : 'POST',
-        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           ...(isEditing ? {} : { articleId: selectedArticle.id }),
           acceptSimilar: giftFormData.acceptSimilar,
@@ -367,9 +362,8 @@ const GiftRegistry = () => {
     }
 
     try {
-      const response = await fetch('/api/articles/scrape', {
+      const response = await apiFetch('/api/articles/scrape', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ url: providerUrl }),
       });
 
@@ -381,9 +375,8 @@ const GiftRegistry = () => {
       const data = await response.json();
 
       // Update the article with new scraped data
-      const updateRes = await fetch(`/api/articles/${article.id}`, {
+      const updateRes = await apiFetch(`/api/articles/${article.id}`, {
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           name: data.name || article.name,
           description: data.description || article.description,
@@ -408,7 +401,7 @@ const GiftRegistry = () => {
     if (!confirm(t('gifts.deleteConfirm'))) return;
 
     try {
-      const response = await fetch(
+      const response = await apiFetch(
         `/api/babies/${babyId}/gifts/${giftItem.id}`,
         {
           method: 'DELETE',

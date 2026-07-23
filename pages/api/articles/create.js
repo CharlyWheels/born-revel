@@ -1,11 +1,15 @@
 import prisma from '../../../lib/prisma';
 import { scrapeProduct } from '../../../lib/scraping';
+import { requireAuth } from '../../../lib/apiAuth';
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     res.setHeader('Allow', ['POST']);
     return res.status(405).end(`Method ${req.method} Not Allowed`);
   }
+
+  const auth = await requireAuth(req, res);
+  if (!auth) return;
 
   const {
     name,
@@ -15,7 +19,6 @@ export default async function handler(req, res) {
     brand,
     url,
     providerId,
-    userId,
     providerPrice,
     providerDetails,
     providerImageUrl,
@@ -51,7 +54,7 @@ export default async function handler(req, res) {
         imageUrls: normalizedImageUrls,
         category: category || null,
         brand: brand || null,
-        createdById: userId || null,
+        createdById: auth.uid,
       },
     });
 
@@ -131,15 +134,11 @@ export default async function handler(req, res) {
 
       if (skipScrape) {
         scrapeStatus = 'client';
-      } else if (!providerId) {
+      } else {
+        // Await the scrape: on serverless the process can be frozen after the
+        // response is sent, so fire-and-forget work would be silently dropped.
         const scrapeResult = await scrapeAndSave(article.id, resolvedProviderId, url, scrapeOptions);
         scrapeStatus = scrapeResult.success ? 'completed' : 'failed';
-      } else {
-        // Don't await — run in background
-        scrapeAndSave(article.id, resolvedProviderId, url, scrapeOptions).catch((err) =>
-          console.error('Background scraping failed:', err.message)
-        );
-        scrapeStatus = 'background';
       }
     }
 

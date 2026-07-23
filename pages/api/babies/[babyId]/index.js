@@ -1,9 +1,14 @@
 import prisma from '../../../../lib/prisma';
+import { requireOwner } from '../../../../lib/apiAuth';
 
 export default async function handler(req, res) {
   const { babyId } = req.query;
 
   if (req.method === 'GET') {
+    // This returns owner emails and payment configs — owner-only.
+    const owner = await requireOwner(req, res, babyId);
+    if (!owner) return;
+
     try {
       const baby = await prisma.baby.findUnique({
         where: { id: babyId },

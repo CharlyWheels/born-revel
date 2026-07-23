@@ -4,6 +4,8 @@ import Link from 'next/link';
 import Layout from '../components/Layout';
 import { useAuth } from '../context/AuthContext';
 import { useLanguage } from '../context/LanguageContext';
+import { apiFetch } from '../lib/apiClient';
+import { getPublicBabyUrl, getPublicBabyDisplay } from '../lib/urls';
 
 const Dashboard = () => {
   const { user, loading } = useAuth();
@@ -24,7 +26,7 @@ const Dashboard = () => {
   const handleShare = async (e, baby) => {
     e.preventDefault();
     e.stopPropagation();
-    const url = `${window.location.origin}/b/${baby.customSlug}`;
+    const url = getPublicBabyUrl(baby.customSlug);
     if (navigator.share) {
       try {
         await navigator.share({ title: baby.name, url });
@@ -55,7 +57,7 @@ const Dashboard = () => {
   const fetchBabies = async () => {
     try {
       setLoadingBabies(true);
-      const res = await fetch(`/api/babies/my-babies?userId=${user.uid}`);
+      const res = await apiFetch('/api/babies/my-babies');
       if (res.ok) {
         const data = await res.json();
         setBabies(data);
@@ -75,15 +77,12 @@ const Dashboard = () => {
     setCreating(true);
 
     try {
-      const res = await fetch('/api/babies/create', {
+      const res = await apiFetch('/api/babies/create', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           name: formData.name,
           dueDate: formData.dueDate,
           customSlug: formData.customSlug,
-          userId: user.uid,
-          email: user.email,
         }),
       });
 
@@ -175,7 +174,7 @@ const Dashboard = () => {
               <div>
                 <label className="block text-white/90 mb-2 font-medium">{t('dashboard.customUrl')}</label>
                 <div className="flex items-center gap-2">
-                  <span className="text-white/70 text-sm">revel.baby/b/</span>
+                  <span className="text-white/70 text-sm">{getPublicBabyDisplay('')}</span>
                   <input
                     type="text"
                     value={formData.customSlug}
@@ -241,7 +240,7 @@ const Dashboard = () => {
               >
                 <h3 className="text-2xl font-bold text-white mb-2">{baby.name}</h3>
                 <p className="text-white/70 mb-4">{t('dashboard.due', { date: formatDate(baby.dueDate) })}</p>
-                <p className="text-white/60 text-sm mb-4">revel.baby/b/{baby.customSlug}</p>
+                <p className="text-white/60 text-sm mb-4">{getPublicBabyDisplay(baby.customSlug)}</p>
 
                 <div className="flex gap-2 mb-4">
                   {baby.giftRegistryEnabled && (
