@@ -1,4 +1,5 @@
 import prisma from '../../../../lib/prisma';
+import { requireAuth } from '../../../../lib/apiAuth';
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -6,10 +7,19 @@ export default async function handler(req, res) {
     return res.status(405).end(`Method ${req.method} Not Allowed`);
   }
 
-  const { token, userId, email } = req.body;
+  const auth = await requireAuth(req, res);
+  if (!auth) return;
 
-  if (!token || !userId || !email) {
-    return res.status(400).json({ error: 'token, userId, and email are required' });
+  const { token } = req.body;
+  const userId = auth.uid;
+  const email = auth.email;
+
+  if (!token) {
+    return res.status(400).json({ error: 'token is required' });
+  }
+
+  if (!email) {
+    return res.status(400).json({ error: 'Your account has no email address' });
   }
 
   try {

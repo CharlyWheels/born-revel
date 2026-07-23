@@ -1,7 +1,12 @@
 import prisma from '../../../../../lib/prisma';
+import { requireOwner } from '../../../../../lib/apiAuth';
 
 export default async function handler(req, res) {
   const { babyId } = req.query;
+
+  // Owner management view/mutations. Public visitors use /api/public/[customSlug].
+  const owner = await requireOwner(req, res, babyId);
+  if (!owner) return;
 
   if (req.method === 'GET') {
     try {

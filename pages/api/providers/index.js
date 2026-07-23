@@ -1,4 +1,5 @@
 import prisma from '../../../lib/prisma';
+import { requireAuth } from '../../../lib/apiAuth';
 
 export default async function handler(req, res) {
   if (req.method === 'GET') {
@@ -15,6 +16,9 @@ export default async function handler(req, res) {
       res.status(500).json({ error: 'Failed to fetch providers' });
     }
   } else if (req.method === 'POST') {
+    const auth = await requireAuth(req, res);
+    if (!auth) return;
+
     const { name, logoUrl, country, websiteUrl } = req.body;
 
     if (!name) {

@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import Layout from '../../../components/Layout';
 import { useAuth } from '../../../context/AuthContext';
 import { useLanguage } from '../../../context/LanguageContext';
+import { apiFetch } from '../../../lib/apiClient';
 import PregnancyCountdown from '../../../components/PregnancyCountdown';
 import WeeklyInfo from '../../../components/WeeklyInfo';
 import pregnancyWeeksData from '../../../data/pregnancy-weeks.json';
@@ -38,7 +39,7 @@ const PregnancyTracker = () => {
     try {
       setLoading(true);
       setError('');
-      const res = await fetch(`/api/babies/${babyId}/pregnancy`);
+      const res = await apiFetch(`/api/babies/${babyId}/pregnancy`);
       
       if (!res.ok) {
         const data = await res.json();
@@ -61,9 +62,8 @@ const PregnancyTracker = () => {
     const newValue = e.target.checked;
     setSaving(true);
     try {
-      const res = await fetch(`/api/babies/${babyId}/settings`, {
+      const res = await apiFetch(`/api/babies/${babyId}/settings`, {
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ pregnancyTrackerPublic: newValue }),
       });
 

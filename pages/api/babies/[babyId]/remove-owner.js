@@ -1,4 +1,5 @@
 import prisma from '../../../../lib/prisma';
+import { requireOwner } from '../../../../lib/apiAuth';
 
 export default async function handler(req, res) {
   if (req.method !== 'DELETE') {
@@ -7,21 +8,21 @@ export default async function handler(req, res) {
   }
 
   const { babyId } = req.query;
-  const { userId, ownerIdToRemove } = req.body;
+  const { ownerIdToRemove } = req.body;
 
-  if (!userId || !ownerIdToRemove) {
-    return res.status(400).json({ error: 'userId and ownerIdToRemove are required' });
+  if (!ownerIdToRemove) {
+    return res.status(400).json({ error: 'ownerIdToRemove is required' });
+  }
+
+  const owner = await requireOwner(req, res, babyId);
+  if (!owner) return;
+
+  // Only the primary owner can remove co-owners.
+  if (owner.role !== 'primary') {
+    return res.status(403).json({ error: 'Only the primary owner can remove co-owners' });
   }
 
   try {
-    // Verify requester is the primary owner
-    const requesterOwner = await prisma.babyOwner.findFirst({
-      where: { babyId, userId, role: 'primary' },
-    });
-
-    if (!requesterOwner) {
-      return res.status(403).json({ error: 'Only the primary owner can remove co-owners' });
-    }
 
     // Find the owner to remove
     const ownerToRemove = await prisma.babyOwner.findUnique({

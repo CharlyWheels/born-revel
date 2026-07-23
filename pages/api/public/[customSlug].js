@@ -73,8 +73,17 @@ export default async function handler(req, res) {
     }
 
     if (baby.birthBettingEnabled) {
+      // Exclude betterEmail — this is a public endpoint and emails are PII.
       const bets = await prisma.bet.findMany({
         where: { babyId: baby.id },
+        select: {
+          id: true,
+          betterName: true,
+          betDate: true,
+          betDateEnd: true,
+          verified: true,
+          createdAt: true,
+        },
         orderBy: { betDate: 'asc' },
       });
 

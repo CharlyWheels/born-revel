@@ -5,6 +5,8 @@ import Layout from '../../../components/Layout';
 import { useAuth } from '../../../context/AuthContext';
 import { useCountry, COUNTRIES } from '../../../context/CountryContext';
 import { useLanguage } from '../../../context/LanguageContext';
+import { apiFetch } from '../../../lib/apiClient';
+import { getPublicBabyUrl, getPublicBabyDisplay } from '../../../lib/urls';
 
 const BabySettings = () => {
   const { user, loading: authLoading } = useAuth();
@@ -64,7 +66,7 @@ const BabySettings = () => {
   const [shareCopied, setShareCopied] = useState(false);
 
   const handleShare = async () => {
-    const url = `${window.location.origin}/b/${formData.customSlug}`;
+    const url = getPublicBabyUrl(formData.customSlug);
     if (navigator.share) {
       try {
         await navigator.share({ title: formData.name, url });
@@ -95,7 +97,7 @@ const BabySettings = () => {
   const fetchBaby = async () => {
     try {
       setLoading(true);
-      const res = await fetch(`/api/babies/${babyId}`);
+      const res = await apiFetch(`/api/babies/${babyId}`);
       if (res.ok) {
         const data = await res.json();
         setBaby(data);
@@ -161,13 +163,11 @@ const BabySettings = () => {
 
     setInviting(true);
     try {
-      const res = await fetch(`/api/babies/${babyId}/invite`, {
+      const res = await apiFetch(`/api/babies/${babyId}/invite`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           email: inviteEmail,
           inviterName: user.displayName || user.email,
-          userId: user.uid,
         }),
       });
 
@@ -201,10 +201,9 @@ const BabySettings = () => {
     if (!confirm(t('settings.removeConfirm'))) return;
 
     try {
-      const res = await fetch(`/api/babies/${babyId}/remove-owner`, {
+      const res = await apiFetch(`/api/babies/${babyId}/remove-owner`, {
         method: 'DELETE',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ userId: user.uid, ownerIdToRemove: ownerId }),
+        body: JSON.stringify({ ownerIdToRemove: ownerId }),
       });
 
       if (res.ok) {
@@ -240,9 +239,8 @@ const BabySettings = () => {
         });
       }
 
-      const res = await fetch(`/api/babies/${babyId}/settings`, {
+      const res = await apiFetch(`/api/babies/${babyId}/settings`, {
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           name: formData.name,
           dueDate: formData.dueDate,
@@ -421,7 +419,7 @@ const BabySettings = () => {
               <div>
                 <label className="block text-white/90 mb-2 font-medium">{t('settings.customUrl')}</label>
                 <div className="flex items-center gap-2">
-                  <span className="text-white/70 text-sm">revel.baby/b/</span>
+                  <span className="text-white/70 text-sm">{getPublicBabyDisplay('')}</span>
                   <input
                     type="text"
                     value={formData.customSlug}

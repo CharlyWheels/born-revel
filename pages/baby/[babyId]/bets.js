@@ -4,6 +4,7 @@ import Layout from '../../../components/Layout';
 import BettingCalendar from '../../../components/BettingCalendar';
 import { useAuth } from '../../../context/AuthContext';
 import { useLanguage } from '../../../context/LanguageContext';
+import { apiFetch } from '../../../lib/apiClient';
 
 const BabyBetsPage = () => {
   const { user, loading: authLoading } = useAuth();
@@ -34,7 +35,7 @@ const BabyBetsPage = () => {
   const fetchBets = async () => {
     try {
       setLoading(true);
-      const res = await fetch(`/api/babies/${babyId}/bets`);
+      const res = await apiFetch(`/api/babies/${babyId}/bets`);
       if (res.ok) {
         const data = await res.json();
         setBets(data.bets || []);
@@ -53,9 +54,8 @@ const BabyBetsPage = () => {
   const handleVerifyBet = async (betId, approved) => {
     try {
       setVerifying({ ...verifying, [betId]: true });
-      const res = await fetch(`/api/babies/${babyId}/bets/${betId}/verify`, {
+      const res = await apiFetch(`/api/babies/${babyId}/bets/${betId}/verify`, {
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ approved }),
       });
 

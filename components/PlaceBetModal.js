@@ -19,6 +19,14 @@ const PlaceBetModal = ({ selectedDate, paymentConfig, settings = {}, onClose, on
     }
   }, [selectedDate]);
 
+  useEffect(() => {
+    const handleEscape = (e) => {
+      if (e.key === 'Escape') onClose();
+    };
+    document.addEventListener('keydown', handleEscape);
+    return () => document.removeEventListener('keydown', handleEscape);
+  }, [onClose]);
+
   if (!selectedDate) return null;
 
   const handleSubmit = async (e) => {
@@ -60,6 +68,8 @@ const PlaceBetModal = ({ selectedDate, paymentConfig, settings = {}, onClose, on
 
       {/* Modal */}
       <div
+        role="dialog"
+        aria-modal="true"
         className="relative bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto animate-in fade-in zoom-in duration-200"
         onClick={(e) => e.stopPropagation()}
       >

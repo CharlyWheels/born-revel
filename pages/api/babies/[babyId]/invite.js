@@ -1,5 +1,6 @@
 import prisma from '../../../../lib/prisma';
 import { sendOwnerInvitation } from '../../../../lib/email';
+import { requireOwner } from '../../../../lib/apiAuth';
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -8,11 +9,14 @@ export default async function handler(req, res) {
   }
 
   const { babyId } = req.query;
-  const { email, inviterName, userId } = req.body;
+  const { email, inviterName } = req.body;
 
-  if (!email || !inviterName || !userId) {
-    return res.status(400).json({ error: 'email, inviterName, and userId are required' });
+  if (!email || !inviterName) {
+    return res.status(400).json({ error: 'email and inviterName are required' });
   }
+
+  const owner = await requireOwner(req, res, babyId);
+  if (!owner) return;
 
   try {
     const baby = await prisma.baby.findUnique({
@@ -22,12 +26,6 @@ export default async function handler(req, res) {
 
     if (!baby) {
       return res.status(404).json({ error: 'Baby not found' });
-    }
-
-    // Verify requester is an owner of this baby
-    const isOwner = baby.owners.some((o) => o.userId === userId);
-    if (!isOwner) {
-      return res.status(403).json({ error: 'You are not an owner of this baby' });
     }
 
     // Check if already an owner

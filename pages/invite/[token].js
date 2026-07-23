@@ -5,6 +5,7 @@ import { useAuth } from '../../context/AuthContext';
 import { GoogleAuthProvider, signInWithPopup, signInWithRedirect } from 'firebase/auth';
 import { auth } from '../../firebase';
 import { useLanguage } from '../../context/LanguageContext';
+import { apiFetch } from '../../lib/apiClient';
 
 const AcceptInvitation = () => {
   const router = useRouter();
@@ -32,14 +33,9 @@ const AcceptInvitation = () => {
   const acceptInvitation = async () => {
     setStatus('accepting');
     try {
-      const res = await fetch('/api/babies/invite/accept', {
+      const res = await apiFetch('/api/babies/invite/accept', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          token,
-          userId: user.uid,
-          email: user.email,
-        }),
+        body: JSON.stringify({ token }),
       });
 
       const data = await res.json();

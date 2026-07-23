@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
+import Link from 'next/link';
 import { createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, signInWithRedirect } from 'firebase/auth';
 import { auth } from '../firebase';
 import { useAuth } from '../context/AuthContext';
@@ -144,9 +145,9 @@ const CreateAccount = () => {
 
           <p className="text-center text-white/60 text-sm mt-6">
             {t('create.hasAccount')}{' '}
-            <a href="/login" className="text-white underline hover:no-underline">
+            <Link href="/login" className="text-white underline hover:no-underline">
               {t('create.signIn')}
-            </a>
+            </Link>
           </p>
         </div>
       </div>

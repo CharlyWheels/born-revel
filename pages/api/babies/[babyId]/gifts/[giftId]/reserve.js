@@ -6,9 +6,13 @@ export default async function handler(req, res) {
     return res.status(405).end(`Method ${req.method} Not Allowed`);
   }
 
-  const { giftId } = req.query;
-  const giftIdInt = parseInt(giftId);
+  const { babyId, giftId } = req.query;
+  const giftIdInt = Number.parseInt(giftId, 10);
   const { reservedByName, reservationType } = req.body;
+
+  if (Number.isNaN(giftIdInt)) {
+    return res.status(400).json({ error: 'Invalid gift id' });
+  }
 
   if (!reservedByName || !reservationType) {
     return res.status(400).json({ error: 'reservedByName and reservationType are required' });
@@ -19,28 +23,31 @@ export default async function handler(req, res) {
   }
 
   try {
-    const giftItem = await prisma.giftItem.findUnique({ where: { id: giftIdInt } });
-
-    if (!giftItem) {
-      return res.status(404).json({ error: 'Gift item not found' });
-    }
-
-    if (giftItem.status !== 'available') {
-      return res.status(409).json({ error: 'This gift has already been reserved' });
-    }
-
     const statusMap = { buy: 'bought', donate: 'donated', pay: 'paid' };
 
-    const updated = await prisma.giftItem.update({
-      where: { id: giftIdInt },
+    // Atomic conditional update prevents a double-reservation race: only rows
+    // still 'available' (and belonging to this baby) are updated.
+    const { count } = await prisma.giftItem.updateMany({
+      where: { id: giftIdInt, babyId, status: 'available' },
       data: {
         status: statusMap[reservationType] || 'reserved',
         reservedByName,
         reservationType,
       },
-      include: {
-        article: true,
-      },
+    });
+
+    if (count === 0) {
+      // Either the gift doesn't exist for this baby or it's already taken.
+      const exists = await prisma.giftItem.findFirst({ where: { id: giftIdInt, babyId } });
+      if (!exists) {
+        return res.status(404).json({ error: 'Gift item not found' });
+      }
+      return res.status(409).json({ error: 'This gift has already been reserved' });
+    }
+
+    const updated = await prisma.giftItem.findUnique({
+      where: { id: giftIdInt },
+      include: { article: true },
     });
 
     res.status(200).json(updated);

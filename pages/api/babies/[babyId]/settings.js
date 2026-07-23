@@ -1,5 +1,6 @@
 import prisma from '../../../../lib/prisma';
 import slugify from 'slugify';
+import { requireOwner } from '../../../../lib/apiAuth';
 
 export default async function handler(req, res) {
   if (req.method !== 'PUT') {
@@ -8,6 +9,9 @@ export default async function handler(req, res) {
   }
 
   const { babyId } = req.query;
+
+  const owner = await requireOwner(req, res, babyId);
+  if (!owner) return;
   const {
     name,
     dueDate,

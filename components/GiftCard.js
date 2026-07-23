@@ -1,6 +1,7 @@
 import { useLanguage } from '../context/LanguageContext';
 
 import { useState } from 'react';
+import { GIFT_PLACEHOLDER_IMAGE } from '../lib/images';
 
 const GiftCard = ({ giftItem, isOwner, onReserve, onEdit, onDelete, onRescrape }) => {
   const [rescanning, setRescanning] = useState(false);
@@ -9,10 +10,8 @@ const GiftCard = ({ giftItem, isOwner, onReserve, onEdit, onDelete, onRescrape }
   const article = giftItem.article;
   const providers = article?.articleProviders || [];
   const providerImageUrl = providers.find((ap) => ap.imageUrl)?.imageUrl || null;
-  const fallbackImage =
-    'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="200" height="200"%3E%3Crect fill="%23ffffff20" width="200" height="200"/%3E%3Ctext fill="%23ffffff60" font-family="Arial" font-size="18" x="50%25" y="50%25" text-anchor="middle" dy=".3em"%3EGift%3C/text%3E%3C/svg%3E';
   const imageUrl =
-    article?.imageUrls?.[0] || providerImageUrl || fallbackImage;
+    article?.imageUrls?.[0] || providerImageUrl || GIFT_PLACEHOLDER_IMAGE;
   const status = giftItem.status || 'available';
   const reservedByName = giftItem.reservedByName;
   const reservationType = giftItem.reservationType;
@@ -80,7 +79,7 @@ const GiftCard = ({ giftItem, isOwner, onReserve, onEdit, onDelete, onRescrape }
             alt={article?.name || t('giftCard.gift')}
             className="w-full h-full object-cover"
             onError={(e) => {
-              e.target.src = fallbackImage;
+              e.target.src = GIFT_PLACEHOLDER_IMAGE;
             }}
           />
         </div>
